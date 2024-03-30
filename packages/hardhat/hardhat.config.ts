@@ -32,8 +32,7 @@ const config: HardhatUserConfig = {
   },
   defaultNetwork: "localhost",
   namedAccounts: {
-    deployer: {
-      // By default, it will take the first Hardhat account as the deployer
+    owner: {
       default: 0,
     },
   },
@@ -45,6 +44,11 @@ const config: HardhatUserConfig = {
         url: `https://eth-mainnet.alchemyapi.io/v2/${providerApiKey}`,
         enabled: process.env.MAINNET_FORKING_ENABLED === "true",
       },
+    },
+    zkatana: {
+      url: "https://rpc.startale.com/zkatana",
+      accounts: [deployerPrivateKey],
+      chainId: 1261120,
     },
     mainnet: {
       url: `https://eth-mainnet.alchemyapi.io/v2/${providerApiKey}`,
