@@ -44,10 +44,14 @@ const config: HardhatUserConfig = {
         url: `https://eth-mainnet.alchemyapi.io/v2/${providerApiKey}`,
         enabled: process.env.MAINNET_FORKING_ENABLED === "true",
       },
+      mining: {
+        auto: true, // 자동 채굴을 활성화
+        interval: 0, // 즉시 채굴, 채굴 간격을 조절하려면 밀리초 단위의 값을 입력 (예: 5000은 5초 간격)
+      },
     },
     zkatana: {
       url: "https://rpc.startale.com/zkatana",
-      accounts: [deployerPrivateKey],
+      accounts: [`0x${deployerPrivateKey}`],
       chainId: 1261120,
     },
     mainnet: {
