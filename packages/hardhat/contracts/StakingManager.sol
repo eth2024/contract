@@ -9,6 +9,7 @@ contract StakingManager is Ownable {
     IERC20 public stakingToken;
 
     mapping(address => uint256) public stakes;
+    uint256 public minStakeAmount = 10e18;
     uint256 public slashPercentage = 100; // 슬래싱할 때 소각되는 토큰 비율 (예: 100%)
 
     event Staked(address indexed validator, uint256 amount);
@@ -19,11 +20,11 @@ contract StakingManager is Ownable {
     }
 
     // 스테이킹
-    function stake(uint256 _amount) public {
-        require(_amount >= 10e18, "Amount must be greater than 10 tokens");
-        stakes[msg.sender] += _amount;
-        stakingToken.transferFrom(msg.sender, address(this), _amount);
-        emit Staked(msg.sender, _amount);
+    function stake(address _staker,uint256 _amount) public {
+        require(_amount >= minStakeAmount, "Amount must be greater than 10 tokens");
+        stakes[_staker] += _amount;
+        stakingToken.transferFrom(_staker, address(this), _amount);
+        emit Staked(_staker, _amount);
     }
 
     // 슬래싱
@@ -38,10 +39,10 @@ contract StakingManager is Ownable {
     }
 
     // 스테이킹된 토큰 회수 (슬래싱 없이, 벨리데이터가 자신의 토큰을 회수)
-    function unstake(uint256 _amount) public {
-        require(_amount > 0 && _amount <= stakes[msg.sender], "Invalid unstake amount");
-        stakes[msg.sender] -= _amount;
-        stakingToken.transfer(msg.sender, _amount);
+    function unstake(address _staker,uint256 _amount) public {
+        require(_amount > minStakeAmount && _amount <= stakes[_staker], "Invalid unstake amount");
+        stakes[_staker] -= _amount;
+        stakingToken.transfer(_staker, _amount);
     }
 
     // stake된 수량 조회
