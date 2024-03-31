@@ -54,6 +54,10 @@ const config: HardhatUserConfig = {
       accounts: [`0x${deployerPrivateKey}`],
       chainId: 1261120,
     },
+    neonDevnet: {
+      url: "https://devnet.neonevm.org",
+      accounts: [`0x${deployerPrivateKey}`],
+    },
     mainnet: {
       url: `https://eth-mainnet.alchemyapi.io/v2/${providerApiKey}`,
       accounts: [deployerPrivateKey],
